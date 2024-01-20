@@ -1,0 +1,30 @@
+avaliações
+  - id Gestor
+  - id colaborador
+  - média do colaborador
+  - questionário
+  - criadoem - 
+
+
+colaborador
+ - 
+
+gestor
+ - cria um questionário
+ - 
+
+equipes
+  - possui 1 gestor
+  - possui N colaboradores
+  - 
+
+perguntas
+ - contexto
+ - conteudo
+ - dificuldade - baixa media alta / qtd perguntas
+FK - idQuestionario
+
+questionário
+  titulo - questionario para trainee
+   
+   
