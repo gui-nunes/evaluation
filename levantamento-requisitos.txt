@@ -20,7 +20,8 @@ equipes
 
 perguntas
  - contexto
- - conteudo
+ - titulo
+ - descrição
  - dificuldade - baixa media alta / qtd perguntas
 FK - idQuestionario
 
