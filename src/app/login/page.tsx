@@ -1,22 +1,21 @@
-'use client';
 import React from 'react';
-import { useState } from 'react';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  async function login(formData: FormData) {
+    ('use server');
+    const { email, password } = {
+      email: formData.get('email'),
+      password: formData.get('password'),
+    };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // TODO: Implementar lógica de login
-    console.log('Login em andamento...');
-  };
+    console.log(email, password);
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <div className="bg-white shadow-md rounded-md px-8 py-6 w-full max-w-md">
         <h1 className="text-2xl font-bold mb-4">Login</h1>
-        <form onSubmit={handleSubmit}>
+        <form action={login}>
           <div className="mb-4">
             <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
               Endereço de Email
@@ -24,8 +23,6 @@ export default function LoginPage() {
             <input
               id="email"
               type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               required
             />
@@ -37,8 +34,6 @@ export default function LoginPage() {
             <input
               id="password"
               type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               required
             />
@@ -51,6 +46,9 @@ export default function LoginPage() {
             </button>
             <a href="/forgot-password" className="text-sm text-blue-500 hover:underline">
               Esqueceu sua senha?
+            </a>
+            <a href="/register" className="text-sm text-blue-500 hover:underline">
+              Registrar
             </a>
           </div>
         </form>
