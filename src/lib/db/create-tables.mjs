@@ -2,7 +2,7 @@ import pg from 'pg';
 import sqlScripts from './script.mjs';
 
 const client = new pg.Client({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL, // <-- ALTERAR
 });
 try {
   console.log('Connecting to database...');

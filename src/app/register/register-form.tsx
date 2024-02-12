@@ -37,6 +37,7 @@ export function RegisterForm() {
           Já possui conta? Entre aqui.
         </a>
       </div>
+      <div>{errorMessage && <p className="text-red-500">{errorMessage.message}</p>}</div>
     </form>
   );
 }

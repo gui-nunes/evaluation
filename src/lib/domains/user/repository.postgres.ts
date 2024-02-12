@@ -1,13 +1,6 @@
 import { DbService } from '@/lib/db/db-service';
 import { User } from './types/user.entity';
-
-export interface IUserRepository {
-  add(user: CreateUserDTO): Promise<User>;
-  getByEmail(email: string): Promise<User>;
-  getById(id: number): Promise<User>;
-  update(id: number, data: Partial<User>): Promise<User>;
-  delete(id: number): Promise<void>;
-}
+import { IUserRepository } from './repository.interface';
 
 export type CreateUserDTO = {
   name: string;
@@ -57,6 +50,20 @@ export class UserRepositoryPostgres extends DbService implements IUserRepository
         throw error;
       });
   }
+
+  async password(email: string): Promise<{ email: string; password: string }> {
+    return await this.query<{ email: string; password: string }, [string]>({
+      text: `SELECT email, password FROM users WHERE email = $1;`,
+      values: [email],
+    })
+      .then((result) => {
+        return result.rows[0];
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
+
   async update(id: number, data: Partial<User>): Promise<User> {
     throw new Error('Method not implemented.');
   }
