@@ -1,4 +1,4 @@
-import { Client, QueryConfig, QueryResultRow } from 'pg';
+import { Client, QueryConfig, QueryResult, QueryResultRow } from 'pg';
 
 export class DbService {
   private readonly client: Client;
@@ -20,9 +20,9 @@ export class DbService {
   protected async query<R extends QueryResultRow, I extends any[]>(
     queryText: string | QueryConfig<I>,
     params?: I
-  ): Promise<any> {
+  ): Promise<QueryResult<R>> {
     const result = await this.client.query<R, I>(queryText, params);
-    return result.rows;
+    return result;
   }
 
   protected async execute(queryText: string, params?: any[]): Promise<void> {

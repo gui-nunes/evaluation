@@ -3,7 +3,8 @@ import { User } from './types/user.entity';
 
 export interface IUserRepository {
   add(user: CreateUserDTO): Promise<User>;
-  get(id: number): Promise<User>;
+  getByEmail(email: string): Promise<User>;
+  getById(id: number): Promise<User>;
   update(id: number, data: Partial<User>): Promise<User>;
   delete(id: number): Promise<void>;
 }
@@ -19,15 +20,42 @@ export class UserRepositoryPostgres extends DbService implements IUserRepository
     this.connect();
   }
   async add(user: CreateUserDTO): Promise<User> {
-    const newUsr = await this.query({
+    return await this.query<User, [name: string, email: string, password: string]>({
       text: `INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *`,
       values: [user.name, user.email, user.password],
-    });
-
-    throw new Error('Method not implemented.');
+    })
+      .then((result) => {
+        return result.rows[0];
+      })
+      .catch((e) => {
+        throw e;
+      });
   }
-  async get(id: number): Promise<User> {
-    throw new Error('Method not implemented.');
+
+  async getByEmail(email: string): Promise<User> {
+    return await this.query<User, [string]>({
+      text: `SELECT id, name, email FROM users WHERE email = $1;`,
+      values: [email],
+    })
+      .then((result) => {
+        return result.rows[0];
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  async getById(id: number): Promise<User> {
+    return await this.query<User, [number]>({
+      text: `SELECT id, name, email FROM users WHERE id = $1;`,
+      values: [id],
+    })
+      .then((result) => {
+        return result.rows[0];
+      })
+      .catch((error) => {
+        throw error;
+      });
   }
   async update(id: number, data: Partial<User>): Promise<User> {
     throw new Error('Method not implemented.');
@@ -36,3 +64,5 @@ export class UserRepositoryPostgres extends DbService implements IUserRepository
     throw new Error('Method not implemented.');
   }
 }
+
+export const userRepositoryInstance = new UserRepositoryPostgres();
