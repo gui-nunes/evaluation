@@ -18,13 +18,11 @@ export async function register(prevState: any, formData: FormData): Promise<{ me
         password: bcryptjs.hashSync(password.toString(), 10),
       });
     } catch (error) {
-      console.log(error);
       throw new Error('Erro ao registrar o usuário, tente novamente.');
     }
     try {
-      await login(formData);
+      await login({ message: '' }, formData);
     } catch (error) {
-      console.log(error);
       throw new Error('Erro ao definir sessão, tente mais tarde.');
     }
   } catch (error: any) {

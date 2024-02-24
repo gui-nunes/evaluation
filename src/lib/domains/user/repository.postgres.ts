@@ -51,7 +51,7 @@ export class UserRepositoryPostgres extends DbService implements IUserRepository
       });
   }
 
-  async password(email: string): Promise<{ email: string; password: string }> {
+  async getToLogin(email: string): Promise<{ email: string; password: string }> {
     return await this.query<{ email: string; password: string }, [string]>({
       text: `SELECT email, password FROM users WHERE email = $1;`,
       values: [email],

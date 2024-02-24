@@ -1,25 +1,33 @@
 'use client';
-import { authenticate } from '@/lib/actions/authenticate';
+import { login } from '@/lib/domains/user/actions/login';
 import { useFormState, useFormStatus } from 'react-dom';
 
+const initialState = {
+  message: '',
+};
+
 export function LoginForm() {
-  const [errorMessage, dispatch] = useFormState(authenticate, FormData);
+  const [state, formAction] = useFormState(login, initialState);
 
   return (
-    <form action={dispatch}>
-      <input type="email" name="email" placeholder="Email" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <div>{errorMessage && <p>{errorMessage}</p>}</div>
+    <form action={formAction}>
+      <input type="email" name="email" className="border border-gray-300 rounded-md p-2 mb-2" />
+      <input
+        type="password"
+        name="password"
+        className="border border-gray-300 rounded-md p-2 mb-2"
+      />
       <LoginButton />
+      <p>{state.message}</p>
     </form>
   );
 }
 
-function LoginButton() {
+export function LoginButton() {
   const { pending } = useFormStatus();
 
   return (
-    <button aria-disabled={pending} type="submit">
+    <button className="bg-blue-500 text-white rounded-md p-2" type="submit" aria-disabled={pending}>
       Login
     </button>
   );

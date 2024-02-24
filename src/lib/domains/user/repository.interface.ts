@@ -7,5 +7,5 @@ export interface IUserRepository {
   getById(id: number): Promise<User>;
   update(id: number, data: Partial<User>): Promise<User>;
   delete(id: number): Promise<void>;
-  password(email: string): Promise<{ email: string; password: string }>;
+  getToLogin(email: string): Promise<{ email: string; password: string }>;
 }
